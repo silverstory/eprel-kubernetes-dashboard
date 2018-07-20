@@ -1,0 +1,47 @@
+create and use admin user token in kubernetes dashboard
+
+kubectl create -f admin-user.yaml
+
+kubectl create -f ClusterRoleBinding.yaml
+
+kubectl -n kube-system get serviceaccounts
+
+you must find admin-user there
+
+clear
+
+kubectl -n kube-system get secret
+
+kubectl -n kube-system describe secret admin-user-token-*****
+
+sample token result
+
+eyJhbGciOiJSUzI1NiIsImtpZCI6IiJ9.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2N****
+
+
+---
+
+other methods
+
+Get Bearer Token
+
+linux host
+
+kubectl -n kube-system describe secret $(kubectl -n kube-system get secret | grep admin-user | awk '{print $1}')
+
+windows host
+
+kubectl get clusterroles
+
+kubectl get serviceaccounts
+
+kubectl -n kube-system get secret
+
+kubectl -n kube-system describe secret deployment-controller-token-*****
+
+set as cluster admin
+
+kubectl config set-credentials cluster-admin --token=ey...bearer_token
+
+
+source: https://github.com/kubernetes/dashboard/wiki/Creating-sample-user
